@@ -14,7 +14,7 @@ public class UsuarioService {
     @Autowired
     UsuarioRepository usuarioRepository;
 
-    public UsuarioDTO cadastrarUsuario(UsuarioDTO usuarioDTO){
+    public UsuarioDTO cadastrarUsuario(UsuarioDTO usuarioDTO) {
         Usuario usuario = converterUsuarioDTOParaUsuario(usuarioDTO);
         usuario = usuarioRepository.save(usuario);
         return converterUsuarioParaUsuarioDTO(usuario);
@@ -33,7 +33,7 @@ public class UsuarioService {
         return usuarioDTO;
     }
 
-    public Usuario converterUsuarioDTOParaUsuario(UsuarioDTO usuarioDTO){
+    public Usuario converterUsuarioDTOParaUsuario(UsuarioDTO usuarioDTO) {
         Usuario usuario = new Usuario();
         usuario.setId(usuarioDTO.getId());
         usuario.setNome(usuarioDTO.getNome());
@@ -57,8 +57,22 @@ public class UsuarioService {
 //    }
 
     public UsuarioDTO buscarUsuarioPorId(Long id) {
-      Usuario usuario = usuarioRepository.findById(id)
-              .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado."));
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado."));
         return converterUsuarioParaUsuarioDTO(usuario);
-   }
+    }
+
+    public UsuarioDTO atualizarUsuario(UsuarioDTO usuarioDTO) {
+        Usuario usuario = usuarioRepository.findById(usuarioDTO.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado."));
+        usuario = converterUsuarioDTOParaUsuario(usuarioDTO);
+        return converterUsuarioParaUsuarioDTO(usuarioRepository.save(usuario));
+
+    }
+
+    public UsuarioDTO buscarUsuarioPorEmail(String email) {
+        Usuario usuario =  usuarioRepository.findByEmail(email);
+        return converterUsuarioParaUsuarioDTO(usuario);
+
+    }
 }

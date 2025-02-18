@@ -18,9 +18,9 @@ public class UsuarioResource {
 
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioDTO> buscarUsuarios(@PathVariable Long id) {
-
         return ResponseEntity.ok(usuarioService.buscarUsuarioPorId(id));
     }
+
 
     @PostMapping()
     public ResponseEntity<UsuarioDTO> cadastrarUsuario(@RequestBody UsuarioDTO usuarioDTO){
@@ -32,6 +32,20 @@ public class UsuarioResource {
         this.usuarioService.deletarUsuario(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping()
+    public ResponseEntity<UsuarioDTO> atualizarUsuario (@RequestBody UsuarioDTO usuarioDTO){
+
+        UsuarioDTO dto = usuarioService.atualizarUsuario(usuarioDTO);
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/buscar")
+    public ResponseEntity<UsuarioDTO> buscarUsuarioPorEmail(@RequestParam String email){
+        return ResponseEntity.ok(usuarioService.buscarUsuarioPorEmail(email));
+    }
+
+
     }
 
 
